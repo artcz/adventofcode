@@ -34,8 +34,7 @@ def p1():
     while Q:
         item = Q.popleft()
         SEEN[item] = True
-        cc = colors[item]
-        for i in cc:
+        for i in colors[item]:
             Q.append(i)
 
     print(len(SEEN))
@@ -64,9 +63,8 @@ def p2():
     Q = deque()
 
     for item in BAGS["shiny gold"]:
-        if item[0].isdigit():
-            num, rest = item.split(maxsplit=1)
-            Q.append((int(num), rest))
+        num, rest = item.split(maxsplit=1)
+        Q.append((int(num), rest))
 
     while Q:
         prev, item = Q.popleft()
@@ -75,9 +73,8 @@ def p2():
             if "no other" in it:
                 continue
 
-            if it[0].isdigit():
-                num, rest = it.split(maxsplit=1)
-                Q.append((prev * int(num), rest))
+            num, rest = it.split(maxsplit=1)
+            Q.append((prev * int(num), rest))
 
     print(sum(SEEN.values()))
 
