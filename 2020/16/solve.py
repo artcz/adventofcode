@@ -1,4 +1,4 @@
-from collections import defaultdict
+from collections import defaultdict, deque
 
 batches = open("input").read().strip().split("\n\n")
 
@@ -105,6 +105,59 @@ def p2():
     print(ans)
 
 
+def p2b():
+    validations, myticket, othertickets = batches
+
+    Vs, validators = parse_validators(validations)
+
+    myticket = myticket.splitlines()[1]
+    myticket = [int(x) for x in myticket.split(",")]
+
+    valid_tickets = []
+    for ticket in othertickets.splitlines()[1:]:
+        fields = [int(x) for x in ticket.split(",")]
+        for f in fields:
+            if not any(v[0] <= f <= v[1] for v in Vs):
+                break
+        else:
+            valid_tickets.append(fields)
+
+    columns = zip(*valid_tickets)  # transpose
+    options = defaultdict(set)
+    for i, column in enumerate(columns):
+        for k, v in validators.items():
+            if all(
+                v[0][0] <= cell <= v[0][1] or v[1][0] <= cell <= v[1][1]
+                for cell in column
+            ):
+                options[i].add(k)
+
+    Q = deque()
+    for k, v in options.items():
+        Q.append((k, v))
+
+    columns = [None] * len(myticket)
+
+    while Q:
+        pos, options = Q.popleft()
+        options = {z for z in options if z not in columns}
+
+        if len(options) == 1:
+            columns[pos] = options.pop()
+            continue
+
+        Q.append((pos, options))
+
+    assert all(columns)
+
+    ans = 1
+    for name, value in zip(columns, myticket):
+        if name.startswith('departure'):
+            ans *= value
+
+    print(ans)
+
+
 print("Part1", "-" * 79)
 print()
 p1()
@@ -112,4 +165,5 @@ print()
 print("\nPart2", "-" * 79)
 print()
 p2()
+p2b()
 print("\n---- EOD ----")
