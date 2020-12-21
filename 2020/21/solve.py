@@ -33,9 +33,7 @@ def p1():
     matches = set(itertools.chain(*matches.values()))
     nomatches = INGs.keys() - matches
 
-    ans = 0
-    for n in nomatches:
-        ans += INGs[n]
+    ans = sum(INGs[n] for n in nomatches)
 
     print(ans)
 
