@@ -61,4 +61,5 @@ int main() {
     printf("Part1: %d\n", part1);
     printf("Part2: %d\n", part2);
 
+    return 0;
 }
