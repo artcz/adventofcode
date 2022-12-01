@@ -1,0 +1,64 @@
+<html>
+  <head>
+    <title>Advent of Code 2022 - Day 01</title>
+  </head>
+
+  <body>
+    <style type="text/css">
+      body {
+        background-color: #0f0f23;
+        color: #aaa;
+      }
+      #input {
+        font-family: monospace;
+        white-space: pre;
+        text-align: center;
+      }
+      #input div {
+        padding: 1em;
+      }
+      #input div:first-child strong {
+        font-size: 300%;
+        color: #eee;
+        text-shadow: 0 0 5px #fff;
+      }
+      #input div:nth-child(3) strong {
+        font-size: 300%;
+        color: #ff6;
+        text-shadow: 0 0 5px #ff6;
+      }
+    </style>
+
+    <div id="input"></div>
+
+    <script type="text/javascript" src="./03_input.js"></script>
+    <script>
+      var input = document.getElementById("input");
+      const inputLines = inputString.trim().split(/\r?\n/);
+
+      const div = (running, sum, nums) => {
+        return `<div><strong>${running}</strong>\n${sum}\n${nums}</div>`;
+      };
+
+      var blocks = [];
+      var block = { sum: 0, items: [] };
+      inputLines.forEach((item, index) => {
+        num = parseInt(item);
+        if (num) block.items.push(num);
+        if (num) block.sum += num;
+        if (item === "") {
+          blocks.push(block);
+          block = { sum: 0, items: [] };
+        }
+      });
+      blocks.sort((a, b) => {
+        return b.sum > a.sum;
+      });
+      var running = 0;
+      blocks.forEach((item, index) => {
+        running += item.sum;
+        input.innerHTML += div(running, item.sum, item.items);
+      });
+    </script>
+  </body>
+</html>
