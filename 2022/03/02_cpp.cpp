@@ -25,15 +25,13 @@ int main() {
         }
 
         int half = line.length() / 2;
-        auto a = line.substr(0, half);
-        auto b = line.substr(half);
-        vector<char> av (a.begin(), a.end());
-        vector<char> bv (b.begin(), b.end());
+        auto aa = line.substr(0, half);
+        auto bb = line.substr(half);
 
         // Unfortunately no set.intersection(a, b) for unordered sets in cpp :(
         vector<char> inter = {};
-        for(auto a: av) {
-            for(auto b: bv) {
+        for(auto a: aa) {
+            for(auto b: bb) {
                 if(a == b) {
                     inter.push_back(a);
                     break;
