@@ -1,4 +1,6 @@
-*.out  # for binary files
+# for binary files
+*.out
+*.bin
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

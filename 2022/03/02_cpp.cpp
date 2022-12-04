@@ -27,17 +27,11 @@ int main() {
         int half = line.length() / 2;
         auto aa = line.substr(0, half);
         auto bb = line.substr(half);
+        set<char> as(aa.begin(), aa.end());
+        set<char> bs(bb.begin(), bb.end());
 
-        // Unfortunately no set.intersection(a, b) for unordered sets in cpp :(
         vector<char> inter = {};
-        for(auto a: aa) {
-            for(auto b: bb) {
-                if(a == b) {
-                    inter.push_back(a);
-                    break;
-                }
-            }
-        }
+        set_intersection(as.begin(), as.end(), bs.begin(), bs.end(), back_inserter(inter));
 
         ans += score(inter[0]);
     }
