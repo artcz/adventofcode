@@ -8,3 +8,7 @@ c:
 cpp:
 	g++  04_solve.cpp -o cpp.out
 	./cpp.out
+
+
+py_oneliner:
+	python ./06_python_oneliner.py < input
