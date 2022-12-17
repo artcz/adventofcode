@@ -238,43 +238,24 @@ def main(inp):
             current_jet += 1
 
             # First check the left/right movement
-            for _ in range(1):
-                # Doing for _ range so we can quickly "break" out of the loop.
-                # It's basically a "goto" that can jump only forward.
-
-                if jet == ">":
-                    # If there is an edge or a vertical collision - do nothing
-                    if not can_move(G, (r, c), shape, dr=0, dc=+1):
-                        break
-
-                    # If no collision then move
-                    r, c = move(G, (r, c), shape, dr=0, dc=+1)
-
-                elif jet == "<":
-                    # If there is an edge or a vertical collision - do nothing
-                    if not can_move(G, (r, c), shape, dr=0, dc=-1):
-                        break
-
-                    # If no collision, then move
-                    r, c = move(G, (r, c), shape, dr=0, dc=-1)
+            dc = "< >".index(jet)-1
+            if can_move(G, (r, c), shape, dr=0, dc=dc):
+                r, c = move(G, (r, c), shape, dr=0, dc=dc)
 
             # Then, check if it can fall down
-            for _ in range(1):
+            if not can_move(G, (r, c), shape, dr=+1, dc=0):
+                # When we find the bottom we convert a moving shape into
+                # stationary object. Because moving and stationary objects
+                # use different characters we don't have to worry about
+                # items coliding with themselves when moving.
+                # NOTE: shapes are at most 4x4 so just scan that range.
+                for gr in range(4):
+                    for gc in range(4):
+                        if G[r+gr, c+gc] == MOVING:
+                            G[r+gr, c+gc] = SOLID
 
-                if not can_move(G, (r, c), shape, dr=+1, dc=0):
-                    # When we find the bottom we convert a moving shape into
-                    # stationary object. Because moving and stationary objects
-                    # use different characters we don't have to worry about
-                    # items coliding with themselves when moving.
-                    # NOTE: shapes are at most 4x4 so just scan that range.
-                    for gr in range(4):
-                        for gc in range(4):
-                            if G[r+gr, c+gc] == MOVING:
-                                G[r+gr, c+gc] = SOLID
-
-                    bottom = True
-                    break
-
+                bottom = True
+            else:
                 r, c = move(G, (r, c), shape, dr=+1, dc=0)
 
             if bottom:
